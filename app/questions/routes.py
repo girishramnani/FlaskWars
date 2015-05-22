@@ -1,6 +1,6 @@
 __author__ = 'Girish'
 from flask import render_template
-
+from app.questions import model
 from app.questions import questions
 
 
@@ -10,6 +10,6 @@ def register():
 
 @questions.route("/questions/<int:id>")
 def getquestion(id):
-    question
+    return "hello"
 
 

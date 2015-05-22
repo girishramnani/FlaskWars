@@ -1,20 +1,24 @@
-__author__ = 'Girish'
+from flask.ext.admin.base import Admin
+from flask.ext.admin.contrib.sqla.view import ModelView
 from flask import Flask
-
 from config import config
 from flask.ext.bootstrap import Bootstrap
-bootstrap = Bootstrap()
 from flask.ext.sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
-
 from flask.ext.login import LoginManager
+
+
+bootstrap = Bootstrap()
+db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
+from app.auth.model import User
 
 def create_app(config_name):
     app=Flask(__name__)
     bootstrap.init_app(app)
     db.init_app(app)
+    admin = Admin(app)
+    admin.add_view(ModelView(User, db.session))
     app.config.from_object(config[config_name])
     from app.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint,url_prefix='/auth')
