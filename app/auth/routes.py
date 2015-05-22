@@ -19,9 +19,8 @@ def login():
         if user is None or not user.verify(form.password.data):
             flash("Invalid email or password")
             return redirect(url_for("auth.login"))
-        print("out")
         login_user(user,form.remember_me.data)
-        return redirect(url_for("index"))
+        return render_template("index.html")
     return render_template("login.html",forms=form)
 
 
@@ -30,7 +29,7 @@ def login():
 def logout():
     logout_user()
     flash("You have been logged out.")
-    return redirect(url_for("index"))
+    return render_template("index.html")
 
 
 @auth.route('/register',methods=["GET","POST"])
@@ -45,6 +44,6 @@ def register():
             db.session.add(user)
             db.session.commit()
             flash("Registered successfully")
-            return "success"
+            return render_template("index.html")
     return render_template("register.html",form=form)
 

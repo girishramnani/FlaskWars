@@ -32,19 +32,14 @@
     </div>
   </div>
 
-{#        {% for message in get_flashed_messages() %}#}
-{#            {% if message.startswith("warn") %}#}
-{#        <div class="alert alert-warning">#}
-{#        <button type="button" class="close" data-dismiss="alert">x</button>#}
-{#        {% else  %}#}
-{#        <div class="alert alert-success">#}
-{#        <button type="button" class="close" data-dismiss="alert">x</button>#}
-{#        {% endif %}#}
-{#            {{ message.split("-")[1] }}#}
-{##}
-{#        </div>#}
-{##}
-{#        {% endfor %}#}
+        {% for message in get_flashed_messages() %}
+
+        <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">X</button>
+        {{ message }}
+        </div>
+
+        {% endfor %}
 
         </nav>
     {% endblock %}

@@ -12,4 +12,3 @@ def index():
 def getquestion(id):
     return "hello"
 
-
