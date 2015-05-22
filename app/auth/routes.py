@@ -39,8 +39,12 @@ def register():
 
     if request.method=="POST":
         if form.validate_on_submit():
-            user = User(email=form.data.email,username=form.data.username,password=form.data.password,is_admin=False)
+            print(form.data)
+            user = User(email=form.data['email'],username=form.data['username'],password=form.data['password'],is_admin=False)
+
             db.session.add(user)
             db.session.commit()
-    return render_template("")
+            flash("Registered successfully")
+            return "success"
+    return render_template("register.html",form=form)
 
