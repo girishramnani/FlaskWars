@@ -8,4 +8,8 @@ from app.questions import questions
 def register():
     return render_template()
 
+@questions.route("/questions/<int:id>")
+def getquestion(id):
+    question
+
 
