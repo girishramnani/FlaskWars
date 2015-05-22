@@ -15,7 +15,8 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SECRET_KEY = 'Top SECRET'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
-
+    RECAPTCHA_PARAMETERS = {'hl': 'zh', 'render': 'explicit'}
+    RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
 
 config = {
     'development': DevelopmentConfig

@@ -5,8 +5,8 @@ from app.questions import questions
 
 
 @questions.route("/")
-def register():
-    return render_template()
+def index():
+    return render_template("index.html")
 
 @questions.route("/questions/<int:id>")
 def getquestion(id):

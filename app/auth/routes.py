@@ -42,5 +42,5 @@ def register():
             user = User(email=form.data.email,username=form.data.username,password=form.data.password,is_admin=False)
             db.session.add(user)
             db.session.commit()
-    return render_template()
+    return render_template("")
 

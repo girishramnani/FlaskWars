@@ -1,3 +1,4 @@
+from flask.ext.wtf.recaptcha.fields import RecaptchaField
 from wtforms.fields.core import StringField, BooleanField
 from wtforms.fields.simple import PasswordField, SubmitField, TextField
 from wtforms.validators import Required, DataRequired, Length, Email, EqualTo
@@ -22,3 +23,4 @@ class RegistrationForm(Form):
     ])
     confirm = PasswordField('Repeat Password')
     accept_tos = BooleanField('I accept that the code submitted can be used for any external purposes', [DataRequired()])
+    submit = SubmitField("Register")
