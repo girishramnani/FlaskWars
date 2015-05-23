@@ -1,27 +1,26 @@
 from flask.globals import request
 from flask.helpers import flash, url_for
 from flask import redirect
-from app.auth.forms import LoginForm, RegistrationForm
 from flask import render_template
-from app.auth import auth
 from  flask.ext.login import login_user, login_required, logout_user
+
+from app.auth.forms import LoginForm, RegistrationForm
+from app.auth import auth
 from app.auth.model import User
 from app import db
 
 
-
-
-@auth.route('/login', methods=["GET","POST"])
+@auth.route('/login', methods=["GET", "POST"])
 def login():
-    form =LoginForm()
+    form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.verify(form.password.data):
-            flash("Invalid email or password",category="warning")
+            flash("Invalid email or password", category="warning")
             return redirect(url_for("auth.login"))
-        login_user(user,form.remember_me.data)
+        login_user(user, form.remember_me.data)
         return redirect(url_for("questions.index"))
-    return render_template("login.html",forms=form)
+    return render_template("login.html", forms=form)
 
 
 @auth.route('/logout')
@@ -31,19 +30,21 @@ def logout():
     flash("You have been logged out.")
     return redirect(url_for("auth.login"))
 
-@auth.route('/register',methods=["GET","POST"])
+
+@auth.route('/register', methods=["GET", "POST"])
 def register():
     form = RegistrationForm(request.form)
 
-    if request.method=="POST":
+    if request.method == "POST":
         if form.validate_on_submit():
             print(form.data)
-            user = User(email=form.data['email'],username=form.data['username'],password=form.data['password'],is_admin=False)
+            user = User(email=form.data['email'], username=form.data['username'], password=form.data['password'],
+                        is_admin=False)
 
             db.session.add(user)
             db.session.commit()
-            login_user(user,form.remember_me.data)
+            login_user(user, form.remember_me.data)
             flash("Registered successfully")
             return redirect(url_for("questions.index"))
-    return render_template("register.html",form=form)
+    return render_template("register.html", form=form)
 
