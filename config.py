@@ -19,6 +19,7 @@ class DevelopmentConfig(Config):
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
     UPLOAD_FOLDER = os.path.join(basedir, 'app/static/upload')
 
+
 config = {
     'development': DevelopmentConfig
 }
