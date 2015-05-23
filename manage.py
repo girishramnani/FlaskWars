@@ -22,5 +22,9 @@ def adduser(email,username,admin=False):
     db.session.add(user)
     db.session.commit()
     print("done")
+
+@manager.command
+def refresh_db():
+    db.create_all()
 if __name__ =="__main__":
     manager.run()

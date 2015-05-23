@@ -2,7 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 __author__ = 'Girish'
 
-from flask.ext.login import UserMixin
+from flask.ext.login import UserMixin, AnonymousUserMixin
 from datetime import datetime
 from app import db,login_manager
 
@@ -31,4 +31,3 @@ class User(UserMixin,db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-

@@ -5,13 +5,14 @@ from config import config
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
-
+# from app.questions.model import Question,TestCase
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 from app.auth.model import User
+from app.questions.model import Question,TestCase
 
 def create_app(config_name):
     app=Flask(__name__)
@@ -19,6 +20,8 @@ def create_app(config_name):
     db.init_app(app)
     admin = Admin(app)
     admin.add_view(ModelView(User, db.session))
+    admin.add_view(ModelView(Question, db.session))
+    admin.add_view(ModelView(TestCase, db.session))
     app.config.from_object(config[config_name])
     from app.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint,url_prefix='/auth')
