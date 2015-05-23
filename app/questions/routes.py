@@ -66,4 +66,4 @@ def status():
 @login_required
 def status_individual():
     user_submissions =Submission.query.filter(current_user.id == Submission.question_id)
-    return render_template("status.html",submissions =user_submissions)
+    return render_template("status.html",submissions =user_submissions,ofuser=True)

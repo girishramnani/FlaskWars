@@ -1,7 +1,11 @@
 {% extends "login.html" %}
 
 {% block form_header %}
- All submissions
+    {% if ofuser %}
+        {{ current_user.username }}'s Submissions
+    {% else %}
+    All Submissions
+     {% endif %}
 {% endblock %}
 {% block form %}
 <table class="table table-bordered table-hover table-responsive">
@@ -13,4 +17,5 @@
             <th>result</th>
         </tr>
         </thead>
+    </table>
 {% endblock %}

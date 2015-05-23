@@ -23,6 +23,6 @@ pre {
     border: 1px solid #C2C7D0;
 }
 
-#code {
+input[type="file"] {
     height: auto !important;
 }
