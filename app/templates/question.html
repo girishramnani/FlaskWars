@@ -1,6 +1,4 @@
 {% extends "login.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
 {% block form_header %}
     {{ question.title }}
 {% endblock %}
@@ -26,10 +24,13 @@
     <pre>{{ question.test_output }}
     </pre>
     <blockquote style="font-family: 'lucida console';font-size: 10px">added on {{ question.added_on }}</blockquote>
-    <div class="upload">
-        {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post") }}
+     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+    </button>
 
-    </div>
     <br>
+
+    {%  include "_submit_modal.html" %}
     <br>
+
 {% endblock %}
