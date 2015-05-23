@@ -5,7 +5,6 @@ from flask import render_template
 from  flask.ext.login import login_user, login_required, logout_user
 
 from app.auth.forms import LoginForm, RegistrationForm
-
 from app.auth import auth
 from app.auth.model import User
 from app import db
@@ -41,7 +40,6 @@ def register():
             print(form.data)
             user = User(email=form.data['email'], username=form.data['username'], password=form.data['password'],
                         is_admin=False)
-
             db.session.add(user)
             db.session.commit()
             login_user(user, form.remember_me.data)

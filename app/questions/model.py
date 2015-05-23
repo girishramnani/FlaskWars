@@ -15,7 +15,9 @@ class Question(db.Model):
     test_input = db.Column(db.Text, nullable=False)
     test_output = db.Column(db.Text, nullable=False)
     testcases = db.relationship("TestCase")
+    submissions =db.relationship("Submission")
     added_on = db.Column(db.DateTime(), default=datetime.utcnow())
+    max_score = db.Column(db.Integer,default=1) #1 means not a code golf question
 
 
 class TestCase(db.Model):
@@ -27,7 +29,6 @@ class TestCase(db.Model):
 
     def __str__(self):
         return self.input_test
-
 
 
 class Submission(db.Model):

@@ -1,7 +1,6 @@
 import os
 
 from flask.ext.login import current_user, login_required
-
 from flask.globals import request
 from flask.helpers import flash, url_for
 from flask import redirect
@@ -9,10 +8,11 @@ from werkzeug.utils import secure_filename
 
 from app.questions.forms import SubmitForm
 
+
 __author__ = 'Girish'
 from flask import render_template
 from app.questions import questions
-from app.questions.model import Question
+from app.questions.model import Question, Submission
 
 ALLOWED_EXTENSIONS = set(['c', 'cpp', 'py', 'rb', 'java', 'txt'])
 
@@ -57,3 +57,13 @@ def submit(id):
             return redirect(url_for("questions.getquestion", id=id))
 
 
+@questions.route('/status/')
+def status():
+    all_submissions = Submission.query.all()
+    return render_template("status.html",submissions=all_submissions)
+
+@questions.route('/submissions/')
+@login_required
+def status_individual():
+    user_submissions =Submission.query.filter(current_user.id == Submission.question_id)
+    return render_template("status.html",submissions =user_submissions)
