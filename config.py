@@ -17,6 +17,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
     RECAPTCHA_PARAMETERS = {'hl': 'zh', 'render': 'explicit'}
     RECAPTCHA_DATA_ATTRS = {'theme': 'dark'}
+    UPLOAD_FOLDER = os.path.join(basedir, 'app/static/upload')
 
 config = {
     'development': DevelopmentConfig

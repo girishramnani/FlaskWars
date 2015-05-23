@@ -34,8 +34,9 @@ def getquestion(id):
 
 @questions.route('/questions/<int:id>/submit', methods=('GET', 'POST'))
 @login_required
-def submit():
+def submit(id):
+    print(current_user.username)
     form = SubmitForm()
     if form.validate_on_submit():
-        filename = secure_filename(form.code.data.filename)
-        form.code.data.save('uploads/' + filename)
+        print(form.code.data)
+        return "hello"
