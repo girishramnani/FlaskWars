@@ -20,7 +20,7 @@ def login():
             flash("Invalid email or password")
             return redirect(url_for("auth.login"))
         login_user(user,form.remember_me.data)
-        return render_template("index.html")
+        return redirect(url_for("questions.index"))
     return render_template("login.html",forms=form)
 
 
