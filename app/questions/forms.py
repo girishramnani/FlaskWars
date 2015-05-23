@@ -6,9 +6,8 @@ from wtforms.validators import DataRequired
 __author__ = 'Girish'
 
 
-
 class SubmitForm(Form):
-    code = FileField("Your code",validators=[DataRequired()])
+    code = FileField("Your code", validators=[DataRequired()])
     submit = SubmitField("Upload Code")
 
 
