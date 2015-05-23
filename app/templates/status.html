@@ -1,1 +1,16 @@
 {% extends "login.html" %}
+
+{% block form_header %}
+ All submissions
+{% endblock %}
+{% block form %}
+<table class="table table-bordered table-hover table-responsive">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Question name</th>
+            <th>user</th>
+            <th>result</th>
+        </tr>
+        </thead>
+{% endblock %}
