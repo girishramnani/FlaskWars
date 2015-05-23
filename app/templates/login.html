@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {%  import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-    <div class="container-fluid">
+    <div class="container-fluid fontsize">
     <div style="margin-top:90px ">
     <div class="row-fluid">
      <div class="page-header"><h2 style="margin: 5px 5px 5px 5px;">{% block form_header %}Login{% endblock %}</h2></div></div>
     </div>
         <div style="padding: 20px 10px 10px 10px;margin: 0 auto;">
     <div class="container-fluid"  >
-    <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-8 cliente fontsize" style="height:100vh;">
 
         {% block form %}
         {{ wtf.quick_form(forms) }}
@@ -18,12 +17,11 @@
         {% endblock %}
 
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3 cliente" style="height:100vh;">
         {% block aside %}
 
         {% endblock %}
 
-    </div>
     </div>
     </div>
     </div>

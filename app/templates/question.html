@@ -3,5 +3,27 @@
     {{ question.title }}
 {% endblock %}
 {% block form  %}
-hello
+    <h3>Description</h3>
+    <br>
+    <p>{{ question.description | safe }} </p>
+    <br>
+    <h3>input format:</h3>
+    <br>
+    <p>{{ question.inputformat | safe }}</p>
+    <br>
+
+    <h3>Constraints :</h3>
+    <p>
+    {{ question.constraint | safe }}
+    </p>
+    <br>
+    <h3>Sample Input:</h3>
+    <pre>{{ question.test_input }}
+    </pre>
+    <h3>Sample Output:</h3>
+    <pre>{{ question.test_output }}
+    </pre>
+    <blockquote style="font-family: 'lucida console';font-size: 10px">added on {{ question.added_on }}</blockquote>
+    
+
 {% endblock %}

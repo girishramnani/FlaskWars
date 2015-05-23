@@ -43,7 +43,8 @@ def register():
 
             db.session.add(user)
             db.session.commit()
+            logout_user(user,form.remember_me.data)
             flash("Registered successfully")
-            return render_template("index.html")
+            return redirect(url_for("questions.index"))
     return render_template("register.html",form=form)
 
