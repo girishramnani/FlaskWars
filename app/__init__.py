@@ -14,7 +14,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 from app.auth.model import User
-from app.questions.model import Question, TestCase
+from app.questions.model import Question, TestCase,Submission
 
 
 def create_app(config_name):
@@ -25,6 +25,7 @@ def create_app(config_name):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Question, db.session))
     admin.add_view(ModelView(TestCase, db.session))
+    admin.add_view(ModelView(Submission,db.session))
     app.config.from_object(config[config_name])
     from app.auth import auth as auth_blueprint
 
