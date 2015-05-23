@@ -1,6 +1,5 @@
 # flaskCompiler
-the codewars clone but smaller and 
-based on flask.
+a platform for coding compititions made for local usage based on flask
 <br>
 <hr>
 ##Has the following views
