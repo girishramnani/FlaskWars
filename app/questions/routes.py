@@ -1,15 +1,16 @@
 from flask.ext.login import current_user, login_required
+from flask.globals import request
 from flask.helpers import flash, url_for
 from flask import redirect
 from werkzeug.utils import secure_filename
 from app.questions.forms import SubmitForm
-
+import os
 __author__ = 'Girish'
 from flask import render_template
 from app.questions import questions
 from app.questions.model import Question
 
-ALLOWED_EXTENSIONS = set(['c', 'cpp', 'py', 'rb', 'java'])
+ALLOWED_EXTENSIONS = set(['c', 'cpp', 'py', 'rb', 'java','txt'])
 
 @questions.route("/")
 def index():
@@ -17,7 +18,7 @@ def index():
         all_questions = Question.query.all()
         print(all_questions)
         return render_template("index.html",all_quest=all_questions)
-    flash("you need to login to see the questions")
+    flash("you need to login to see the questions",category="warning")
     return redirect(url_for("auth.login"))
 
 def allowed_file(filename):
@@ -37,6 +38,16 @@ def getquestion(id):
 def submit(id):
     print(current_user.username)
     form = SubmitForm()
-    if form.validate_on_submit():
-        print(form.code.data)
-        return "hello"
+    if request.method == 'POST':
+        file = request.files['code']
+        print(os.path.abspath("static"))
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join("app\\static\\upload", filename))
+            flash("your code has been uploaded")
+            return redirect(url_for("questions.getquestion",id=id))
+        else:
+            flash("that file format is not allowed",category="warning")
+            return redirect(url_for("questions.getquestion",id=id))
+
+

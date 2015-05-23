@@ -17,7 +17,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.verify(form.password.data):
-            flash("Invalid email or password")
+            flash("Invalid email or password",category="warning")
             return redirect(url_for("auth.login"))
         login_user(user,form.remember_me.data)
         return redirect(url_for("questions.index"))
@@ -30,7 +30,6 @@ def logout():
     logout_user()
     flash("You have been logged out.")
     return redirect(url_for("auth.login"))
-
 
 @auth.route('/register',methods=["GET","POST"])
 def register():

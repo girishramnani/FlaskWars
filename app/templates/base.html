@@ -36,9 +36,13 @@
     </div>
   </div>
 
-        {% for message in get_flashed_messages() %}
-
+        {% for category,message in get_flashed_messages(with_categories=True) %}
+            {% if category=="message" %}
         <div class="alert alert-success">
+                {% else %}
+                <div class="alert alert-{{ category }}">
+        {% endif %}
+
         <button type="button" class="close" data-dismiss="alert">X</button>
         {{ message }}
         </div>
