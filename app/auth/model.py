@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean)
     password_hash = db.Column(db.String(128))
     member_since = db.Column(db.DateTime(), default=datetime.utcnow())
+    submissions = db.relationship("Submission")
 
     @property
     def password(self):
