@@ -30,7 +30,14 @@ class TestCase(db.Model):
 
 
 
-
+class Submission(db.Model):
+    __tablename__ = "Submissions"
+    id = db.Column(db.Integer,primary_key=True)
+    user_id= db.Column(db.Integer,db.ForeignKey("users.id"))
+    question_id= db.Column(db.Integer,db.ForeignKey("Question.id"))
+    result_message = db.Column(db.Text,nullable=False)
+    result = db.Column(db.Boolean)
+    submited_on = db.Column(db.DateTime(),default=datetime.utcnow())
 
 
 
