@@ -27,7 +27,7 @@
     </pre>
     <blockquote style="font-family: 'lucida console';font-size: 10px">added on {{ question.added_on }}</blockquote>
     <div class="upload">
-        {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post") }}
+        {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post",enctype="multipart/form-data") }}
 
     </div>
     <br>
