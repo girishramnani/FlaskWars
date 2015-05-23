@@ -12,7 +12,7 @@ from app.questions.forms import SubmitForm
 __author__ = 'Girish'
 from flask import render_template
 from app.questions import questions
-from app.questions.model import Question
+from app.questions.model import Question, Submission
 
 ALLOWED_EXTENSIONS = set(['c', 'cpp', 'py', 'rb', 'java', 'txt'])
 
@@ -57,3 +57,7 @@ def submit(id):
             return redirect(url_for("questions.getquestion", id=id))
 
 
+@questions.route('/status/')
+def status():
+    all_submissions = Submission.query.all()
+    return  render_template("status.html",submissions=all_submissions)
