@@ -40,7 +40,6 @@ def register():
             print(form.data)
             user = User(email=form.data['email'], username=form.data['username'], password=form.data['password'],
                         is_admin=False)
-
             db.session.add(user)
             db.session.commit()
             login_user(user, form.remember_me.data)

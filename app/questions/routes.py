@@ -60,4 +60,10 @@ def submit(id):
 @questions.route('/status/')
 def status():
     all_submissions = Submission.query.all()
-    return  render_template("status.html",submissions=all_submissions)
+    return render_template("status.html",submissions=all_submissions)
+
+@questions.route('/submissions/')
+@login_required
+def status_individual():
+    user_submissions =Submission.query.filter(current_user.id == Submission.question_id)
+    return render_template("status.html",submissions =user_submissions)

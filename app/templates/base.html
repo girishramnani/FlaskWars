@@ -24,6 +24,8 @@
                                aria-expanded="false">Hello, {{ current_user.username }} <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url_for("auth.logout") }}">Logout</a></li>
+                                <li><a href="{{ url_for("questions.status_individual") }}">Logout</a></li>
+
                             </ul>
                         </li>
 
