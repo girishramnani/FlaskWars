@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="SQLite -" uuid="e22c9728-9a51-4656-9291-d395691b70fb">
+    <database-info product="SQLite" version="3.7.6.3" jdbc-version="2.1" driver-name="SQLiteJDBC" driver-version="native"/>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed"/>
+    <schema name="" catalog=""/>
+    <table name="users" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="2000000000" scale="10" nullable="false" jdbcType="4"/>
+      <column name="email" sqlType="VARCHAR(64)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR(64)" precision="2000000000" scale="10" nullable="false" jdbcType="12"/>
+      <column name="is_admin" sqlType="BOOLEAN" precision="2000000000" scale="10" nullable="true" jdbcType="4"/>
+      <column name="password_hash" sqlType="VARCHAR(128)" precision="2000000000" scale="10" nullable="true" jdbcType="12"/>
+      <column name="member_since" sqlType="DATETIME" precision="2000000000" scale="10" nullable="true" jdbcType="12"/>
+      <primary-key columns="id"/>
+      <index name="ix_users_email" unique="true" columns="email"/>
+      <index name="ix_users_username" unique="true" columns="username"/>
+    </table>
+  </data-source>
+</component>
