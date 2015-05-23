@@ -1,0 +1,11 @@
+<tr>
+    <td>
+        {{ question.id }}
+    </td>
+    <td>
+        <a href="{{ url_for("questions.getquestion",id=question.id) }}">{{ question.title }}</a>
+    </td>
+    <td>
+        -
+    </td>
+</tr>

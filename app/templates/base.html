@@ -1,5 +1,9 @@
 {% extends "bootstrap/base.html" %}
 {% block html_attribs %} lang="en"{% endblock %}
+{% block styles %}
+    {{ super() }}
+<link rel="stylesheet" href="{{ url_for("static",filename="css/style.css") }}">
+{% endblock %}
 {% block title %}{% if not title %}Talks {% else %}{{ title  }}{% endif %} {% endblock %}
     {% block navbar %}
     <nav class="navbar-fixed-top navbar">

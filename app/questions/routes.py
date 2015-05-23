@@ -10,13 +10,13 @@ from app.questions.model import Question
 def index():
     if current_user.is_authenticated():
         all_questions = Question.query.all()
-        return render_template("index.html")
+        return render_template("index.html",all_quest=all_questions)
     flash("you need to login to see the questions")
     return redirect(url_for("auth.login"))
 
 @questions.route("/questions/<int:id>")
 def getquestion(id):
-    selected_question = Question.query.filter(id=id).first()
+    selected_question = Question.query.filter(Question.id ==id).first()
     return render_template("question.html",question=selected_question)
 
 

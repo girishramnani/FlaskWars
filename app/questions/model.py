@@ -8,7 +8,7 @@ class Question(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     title =db.Column(db.Text,nullable=False,unique=True)
     description = db.Column(db.Text,nullable=False)
-    language = db.Column(db.Text,nullable=False)
+    language = db.Column(db.Text,nullable=False,default="all")
     test_input = db.Column(db.Text,nullable=False)
     test_output = db.Column(db.Text,nullable=False)
     testcases = db.relationship("TestCase")

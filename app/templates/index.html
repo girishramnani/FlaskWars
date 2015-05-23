@@ -4,5 +4,20 @@
     Questions
 {% endblock %}
 {% block form %}
-    
+    <table class="table table-bordered table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Question name</th>
+          <th>result</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for question in all_quest %}
+      {% include "_question_helper.html" %}
+      {% endfor %}
+
+      </tbody>
+    </table>
+
 {% endblock %}
