@@ -1,11 +1,10 @@
-
 {% extends "login.html" %}
-{%  import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block form_header %}
     {{ question.title }}
 {% endblock %}
-{% block form  %}
+{% block form %}
     <h3>Description</h3>
     <br>
     <p>{{ question.description | safe }} </p>
@@ -17,7 +16,7 @@
 
     <h3>Constraints :</h3>
     <p>
-    {{ question.constraint | safe }}
+        {{ question.constraint | safe }}
     </p>
     <br>
     <h3>Sample Input:</h3>
@@ -28,7 +27,7 @@
     </pre>
     <blockquote style="font-family: 'lucida console';font-size: 10px">added on {{ question.added_on }}</blockquote>
     <div class="upload">
-    {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post") }}
+        {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post") }}
 
     </div>
     <br>
