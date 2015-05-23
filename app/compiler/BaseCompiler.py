@@ -2,9 +2,10 @@ __author__ = 'Girish'
 import subprocess
 import os
 import re
-import sys
-#todo - use a better method then the subprocess to run the script
+# todo - use a better method then the subprocess to run the script
 import time
+
+
 class InvalidFileException(Exception):
     def __init__(self, statement=None):
         if statement:
@@ -15,6 +16,7 @@ class InvalidFileException(Exception):
 
 class Compiler:
     permissive_regex = re.compile("\.{2}")
+
     def __init__(self, exec_command, file=None):
         if file:
             self.solution = file
@@ -40,25 +42,25 @@ class Compiler:
         out = out.splitlines()
         return out
 
-    def _get_Test_output(self, file,test, *args, **kargs):
+    def _get_Test_output(self, file, test, *args, **kargs):
         statement = self._prepare_compilation_statement(file, *args, **kargs)
         infile = subprocess.Popen(statement, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         if not os.path.isfile(test):
             raise InvalidFileException("the test file not found")
             infile.kill()
         with open(test) as testfile:
-            t=time.time()
+            t = time.time()
             out = infile.communicate(input="".join(testfile.readlines()).encode())
-            self.time=time.time()-t
+            self.time = time.time() - t
             return self._format_input(out)
 
-    def TestCase(self,file,test,checkfile,limit,*args,**kwargs):
-        out =self._get_Test_output(file,test,*args,**kwargs)
-        if limit >self.time:
+    def TestCase(self, file, test, checkfile, limit, *args, **kwargs):
+        out = self._get_Test_output(file, test, *args, **kwargs)
+        if limit > self.time:
             return "Time limit Exceed"
-        return self.check_result_against_out(checkfile,out)
+        return self.check_result_against_out(checkfile, out)
 
-    def check_result_against_out(self,check, out_tuple):
+    def check_result_against_out(self, check, out_tuple):
         try:
             with open(check) as outfile:
                 counter = 1
