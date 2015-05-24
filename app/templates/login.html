@@ -22,7 +22,9 @@
                 </div>
                 <div class="col-md-3 cliente" style="height:100vh;">
                     {% block aside %}
-
+                    {% if current_user.is_authenticated() %}
+                        <div style="float:right"> <h2>Score : {{ current_user.total_score | float }}</h2></div>
+                        {% endif %}
                     {% endblock %}
 
                 </div>
