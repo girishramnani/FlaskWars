@@ -1,12 +1,11 @@
 import os
 import time
-from multiprocessing import Process,Queue
+from multiprocessing import Process, Queue
 
 from flask.ext.login import current_user, login_required
 from flask.globals import request
 from flask.helpers import flash, url_for
 from flask import redirect
-from werkzeug.utils import secure_filename
 
 from app.questions.forms import SubmitForm, TestForm
 
@@ -15,11 +14,11 @@ __author__ = 'Girish'
 from flask import render_template
 from app.questions import questions
 from app.questions.model import Question, Submission
-import subprocess
 
 ALLOWED_EXTENSIONS = set(['c', 'cpp', 'py', 'rb', 'java', 'txt'])
 UPLOAD_LOCATION = os.path.abspath("app\\static\\upload")
 TEST_LOCATION = os.path.abspath("app\\static\\tests")
+
 
 @questions.route("/")
 def index():
@@ -39,9 +38,9 @@ def allowed_file(filename):
 @login_required
 def getquestion(id):
     submitform = SubmitForm()
-    testform= TestForm()
+    testform = TestForm()
     selected_question = Question.query.filter(Question.id == id).first()
-    return render_template("question.html", question=selected_question, form=submitform,test_form=testform)
+    return render_template("question.html", question=selected_question, form=submitform, test_form=testform)
 
 
 @questions.route('/questions/<int:id>/submit', methods=('GET', 'POST'))
@@ -53,7 +52,7 @@ def submit(id):
         file = request.files['code']
         print(os.path.abspath("static"))
         if file and allowed_file(file.filename):
-            filename ="_".join([current_user.username,str(id),str(int(time.time()))])
+            filename = "_".join([current_user.username, str(id), str(int(time.time()))])
 
             file.save(os.path.join(UPLOAD_LOCATION, filename))
             flash("your code has been uploaded")
@@ -66,46 +65,45 @@ def submit(id):
 @questions.route('/status/')
 def status():
     all_submissions = Submission.query.all()
-    return render_template("status.html",submissions=all_submissions)
+    return render_template("status.html", submissions=all_submissions)
+
 
 @questions.route('/submissions/')
 @login_required
 def status_individual():
-    user_submissions =Submission.query.filter(current_user.id == Submission.question_id)
-    return render_template("status.html",submissions =user_submissions,ofuser=True)
-
+    user_submissions = Submission.query.filter(current_user.id == Submission.question_id)
+    return render_template("status.html", submissions=user_submissions, ofuser=True)
 
 
 global_queue = Queue()
 
 
-def check_similarity(queue,filename1,filename2):
+def check_similarity(queue, filename1, filename2):
     with open(filename1) as comp_test:
         with open(filename2) as user_test:
-            if comp_test.read() ==user_test.read():
+            if comp_test.read() == user_test.read():
                 queue.put("True")
             else:
                 queue.put("False")
 
 
-
-@questions.route('/tests/<int:id>',methods=['POST'])
+@questions.route('/tests/<int:id>', methods=['POST'])
 @login_required
 def test_check(id):
-    if request.method=="POST":
+    if request.method == "POST":
         selected_question = Question.query.filter(Question.id == id).first()
         filename = selected_question.testcases[0].output_tests
-        file_location = os.path.join("app\\static\\tests",filename)
+        file_location = os.path.join("app\\static\\tests", filename)
 
-        test_file_name = "_".join([current_user.username,str(selected_question.id),str(int(time.time()))])
-        test_file_name+=".txt"
+        test_file_name = "_".join([current_user.username, str(selected_question.id), str(int(time.time()))])
+        test_file_name += ".txt"
         test_file = request.files['test']
-        location = os.path.join("app\\static\\tests\\user_tests",test_file_name)
+        location = os.path.join("app\\static\\tests\\user_tests", test_file_name)
         test_file.save(location)
 
-        process = Process(target=check_similarity,args=(global_queue,file_location,location))
+        process = Process(target=check_similarity, args=(global_queue, file_location, location))
         process.start()
-        data  = global_queue.get()
+        data = global_queue.get()
         process.join()
         return data
 
