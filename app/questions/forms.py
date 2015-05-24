@@ -10,8 +10,9 @@ class SubmitForm(Form):
     code = FileField("Your code", validators=[DataRequired()])
     submit = SubmitField("Upload Code")
 
+
 class TestForm(Form):
-    test = FileField("Your Test output:",validators=[DataRequired()])
+    test = FileField("Your Test output:", validators=[DataRequired()])
     test_submit = SubmitField("Upload Test")
 
 
