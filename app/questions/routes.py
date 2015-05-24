@@ -9,7 +9,7 @@ from flask import redirect
 
 from app.questions.forms import SubmitForm, TestForm
 
-
+from app import db
 __author__ = 'Girish'
 from flask import render_template
 from app.questions import questions
@@ -19,6 +19,7 @@ ALLOWED_EXTENSIONS = {'c', 'cpp', 'py', 'rb', 'java', 'txt'}
 UPLOAD_LOCATION = os.path.abspath("app\\static\\upload")
 TEST_LOCATION = os.path.abspath("app\\static\\tests")
 
+code_queue = Queue()
 
 @questions.route("/")
 def index():
@@ -43,18 +44,50 @@ def getquestion(id):
     return render_template("question.html", question=selected_question, form=submitform, test_form=testform)
 
 
+def find_score(filename):
+    with open(filename) as file:
+        length =len(file.read())
+        code_queue.put(length)
+
+
+
+def create_submission(id,score):
+
+    submission = Submission(user_id = current_user.id,question_id=id)
+
 @questions.route('/questions/<int:id>/submit', methods=('GET', 'POST'))
 @login_required
 def submit(id):
+    """
+    similar to the test submission.
+    The code is submitted by this method , it stores the code in the `upload` folder and then finds the score
+    :param id:
+    :return:
+    """
     print(current_user.username)
     form = SubmitForm()
     if request.method == 'POST':
         file = request.files['code']
         print(os.path.abspath("static"))
         if file and allowed_file(file.filename):
+            import pdb
+            question = Question.query.filter(Question.id == id).first()
+            maxS = question.max_score
             filename = "_".join([current_user.username, str(id), str(int(time.time()))])
+            location = os.path.join(UPLOAD_LOCATION, filename)
+            file.save(location)
 
-            file.save(os.path.join(UPLOAD_LOCATION, filename))
+
+            code_process= Process(target=find_score,args=(location,))
+            code_process.start()
+            # length = code_queue.get()
+            # code_process.join()
+            # score = ((maxS-length)/maxS)*100
+            # if score < 0:
+            #     score = 1
+            #
+            # print(score,maxS,length)
+
             flash("your code has been uploaded")
             return redirect(url_for("questions.getquestion", id=id))
         else:
@@ -86,10 +119,6 @@ def check_similarity(queue, filename1, filename2):
             else:
                 queue.put("False")
 
-
-def find_score(filename):
-    with open(filename) as file:
-        return len(file.read())
 
 
 @questions.route('/tests/<int:id>', methods=['POST'])

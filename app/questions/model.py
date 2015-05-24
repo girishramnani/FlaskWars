@@ -38,6 +38,7 @@ class Submission(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey("Question.id"))
     result_message = db.Column(db.Text, nullable=False)
     result = db.Column(db.Boolean)
+    result_score = db.Column(db.FLOAT)
     submited_on = db.Column(db.DateTime(), default=datetime.utcnow())
 
 
