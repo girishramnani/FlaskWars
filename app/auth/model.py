@@ -15,7 +15,7 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean)
     password_hash = db.Column(db.String(128))
     member_since = db.Column(db.DateTime(), default=datetime.utcnow())
-    total_score = db.Column(db.DECIMAL,default=0.0)
+    total_score = db.Column(db.DECIMAL, default=0.0)
     submissions = db.relationship("Submission")
 
     @property
