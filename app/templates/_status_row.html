@@ -3,7 +3,7 @@
         {{ submission.id }}
     </td>
     <td>
-       {{ submission.question_id }}
+       <a href="{{ url_for("questions.getquestion",id=submission.question_id) }}">{{ submission.question_id }}</a>
     </td>
     <td>
         {% if allusers %}
