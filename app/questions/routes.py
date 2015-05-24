@@ -19,7 +19,6 @@ ALLOWED_EXTENSIONS = {'c', 'cpp', 'py', 'rb', 'java', 'txt'}
 UPLOAD_LOCATION = os.path.abspath("app\\static\\upload")
 TEST_LOCATION = os.path.abspath("app\\static\\tests")
 
-code_queue = Queue()
 
 @questions.route("/")
 def index():
@@ -44,16 +43,38 @@ def getquestion(id):
     return render_template("question.html", question=selected_question, form=submitform, test_form=testform)
 
 
-def find_score(filename):
-    with open(filename) as file:
-        length =len(file.read())
-        code_queue.put(length)
+def find_score(filename,id,userid):
+    """
+    the import here is done inside because else a cyclic import situation arrises but as this
+    method runs inside another process so the time consumed doesnt matter
+    :param filename:
+    :param id:
+    :return:
+    """
+    from manage import app
+    with app.app_context():
+        with open(filename) as file:
+            length =len(file.read())
+        question = Question.query.filter(Question.id == id).first()
+        maxS = question.max_score
+        print(length,maxS)
+        score = ((maxS-length)/maxS)*100
+        if score <1:
+            score =1
+        submission = Submission(user_id =userid ,question_id=id,\
+                                result=True,result_score=score,result_message="Solved")
+        db.session.add(submission)
+        db.session.commit()
+        db.create_all()
+        print("done")
 
 
 
-def create_submission(id,score):
 
-    submission = Submission(user_id = current_user.id,question_id=id)
+
+
+
+
 
 @questions.route('/questions/<int:id>/submit', methods=('GET', 'POST'))
 @login_required
@@ -70,23 +91,12 @@ def submit(id):
         file = request.files['code']
         print(os.path.abspath("static"))
         if file and allowed_file(file.filename):
-            import pdb
-            question = Question.query.filter(Question.id == id).first()
-            maxS = question.max_score
             filename = "_".join([current_user.username, str(id), str(int(time.time()))])
             location = os.path.join(UPLOAD_LOCATION, filename)
             file.save(location)
-
-
-            code_process= Process(target=find_score,args=(location,))
+            userid = int(current_user.id)
+            code_process= Process(target=find_score,args=(location,id,userid))
             code_process.start()
-            # length = code_queue.get()
-            # code_process.join()
-            # score = ((maxS-length)/maxS)*100
-            # if score < 0:
-            #     score = 1
-            #
-            # print(score,maxS,length)
 
             flash("your code has been uploaded")
             return redirect(url_for("questions.getquestion", id=id))
