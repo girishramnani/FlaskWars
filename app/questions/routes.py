@@ -6,6 +6,7 @@ from flask.ext.login import current_user, login_required
 from flask.globals import request
 from flask.helpers import flash, url_for
 from flask import redirect
+from app.auth.model import User
 
 from app.questions.forms import SubmitForm, TestForm
 
@@ -108,6 +109,9 @@ def submit(id):
 @questions.route('/status/')
 def status():
     all_submissions = Submission.query.all()
+    all_users = User.query.all()
+    all_users_username =[user.username for user in all_users ]
+
     return render_template("status.html", submissions=all_submissions)
 
 
