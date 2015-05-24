@@ -1,6 +1,6 @@
 import os
 import time
-
+from multiprocessing import Process,Queue
 
 from flask.ext.login import current_user, login_required
 from flask.globals import request
@@ -76,6 +76,18 @@ def status_individual():
 
 
 
+global_queue = Queue()
+
+
+def check_similarity(queue,filename1,filename2):
+    with open(filename1) as comp_test:
+        with open(filename2) as user_test:
+            if comp_test.read() ==user_test.read():
+                queue.put("True")
+            else:
+                queue.put("False")
+
+
 
 @questions.route('/tests/<int:id>',methods=['POST'])
 @login_required
@@ -83,13 +95,19 @@ def test_check(id):
     if request.method=="POST":
         selected_question = Question.query.filter(Question.id == id).first()
         filename = selected_question.testcases[0].output_tests
+        file_location = os.path.join("app\\static\\tests",filename)
+
         test_file_name = "_".join([current_user.username,str(selected_question.id),str(int(time.time()))])
         test_file_name+=".txt"
         test_file = request.files['test']
         location = os.path.join("app\\static\\tests\\user_tests",test_file_name)
         test_file.save(location)
 
-        return "hehaha"
+        process = Process(target=check_similarity,args=(global_queue,file_location,location))
+        process.start()
+        data  = global_queue.get()
+        process.join()
+        return data
 
 
 
