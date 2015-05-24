@@ -13,12 +13,10 @@
 
                     {{ wtf.quick_form(test_form,action =url_for("questions.test_check",id=question.id),method="post",enctype="multipart/form-data",extra_classes="test-form") }}
                     <br>
+                    <fieldset class="solution" disabled>
                     {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post",enctype="multipart/form-data") }}
-
+                    </fieldset>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">submit</button>
             </div>
         </div>
     </div>
@@ -40,6 +38,7 @@
 
         // Catch the form submit and upload the files
         function uploadFiles(event) {
+            var solution = $(".solution");
             var formData = new FormData($(".test-form")[0]);
             console.log(formData)
             console.log("inside upload files")
@@ -55,10 +54,11 @@
                     return myXhr;
                 },
                 //Ajax events
-                success: function (data, a, b) {
-                    console.log(data);
-                    console.log(a);
-                    console.log(b);
+                success: function (data, a) {
+                    if (data =="True"){
+                        solution.removeAttr("disabled");
+                    }
+
                 },
                 // Form data
                 data: formData,

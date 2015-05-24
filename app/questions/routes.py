@@ -87,6 +87,10 @@ def check_similarity(queue, filename1, filename2):
                 queue.put("False")
 
 
+def find_score(filename):
+    with open(filename) as file:
+        return len(file.read())
+
 @questions.route('/tests/<int:id>', methods=['POST'])
 @login_required
 def test_check(id):
