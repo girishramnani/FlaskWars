@@ -15,7 +15,7 @@ from flask import render_template
 from app.questions import questions
 from app.questions.model import Question, Submission
 
-ALLOWED_EXTENSIONS = set(['c', 'cpp', 'py', 'rb', 'java', 'txt'])
+ALLOWED_EXTENSIONS = {'c', 'cpp', 'py', 'rb', 'java', 'txt'}
 UPLOAD_LOCATION = os.path.abspath("app\\static\\upload")
 TEST_LOCATION = os.path.abspath("app\\static\\tests")
 
@@ -91,9 +91,18 @@ def find_score(filename):
     with open(filename) as file:
         return len(file.read())
 
+
 @questions.route('/tests/<int:id>', methods=['POST'])
 @login_required
 def test_check(id):
+    '''
+    this method takes the test file and saves it to the `tests` folder ,it also spins up a process which stores the
+    result in a distributed queue
+
+    TODO - check if multiple requests alienate the queue
+    :param id:
+    :return:
+    '''
     if request.method == "POST":
         selected_question = Question.query.filter(Question.id == id).first()
         filename = selected_question.testcases[0].output_tests

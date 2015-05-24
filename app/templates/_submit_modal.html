@@ -25,14 +25,13 @@
     $(function () {
         // Variable to store your files
         var files;
-
         // Add events
         $('#test').on('change', prepareUpload);
         $('.test-form').on('submit', uploadFiles);
 
         // Grab the files and set them to our variable
         function prepareUpload(event) {
-            console.log("prepare Upload is working")
+            console.log("prepare Upload is working");
             files = event.target.files[0];
         }
 
@@ -40,12 +39,13 @@
         function uploadFiles(event) {
             var solution = $(".solution");
             var formData = new FormData($(".test-form")[0]);
-            console.log(formData)
-            console.log("inside upload files")
+            console.log(formData);
+            console.log("inside upload files");
             event.stopPropagation(); // Stop stuff happening
             event.preventDefault(); // Totally stop stuff happening
+            var first_input = $(".form-group").first();
 
-            // Create a formdata object and add the files
+
             $.ajax({
                 url: '{{ url_for("questions.test_check",id=question.id) }}',  //Server script to process data
                 type: 'POST',
@@ -57,6 +57,12 @@
                 success: function (data, a) {
                     if (data =="True"){
                         solution.removeAttr("disabled");
+                        first_input.removeClass("has-error");
+                        first_input.addClass("has-success");
+                    }
+                    else{
+                        first_input.removeClass("has-success");
+                        first_input.addClass("has-error");
                     }
 
                 },
