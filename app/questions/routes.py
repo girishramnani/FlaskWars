@@ -110,9 +110,10 @@ def submit(id):
 def status():
     all_submissions = Submission.query.all()
     all_users = User.query.all()
-    all_users_username =[user.username for user in all_users ]
+    all_users_username =[" "]+[user.username for user in all_users ]
+    print(all_users_username)
 
-    return render_template("status.html", submissions=all_submissions)
+    return render_template("status.html", submissions=all_submissions,allusers = all_users_username)
 
 
 @questions.route('/submissions/')

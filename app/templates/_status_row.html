@@ -6,7 +6,11 @@
        {{ submission.question_id }}
     </td>
     <td>
-        {{ allusers[submission.user_id] }}
+        {% if allusers %}
+            {{ allusers[submission.user_id] }}
+            {% else %}
+            {{ current_user.username }}
+        {% endif %}
     </td>
     <td>
     {{ submission.result_score}}

@@ -16,9 +16,10 @@
             <th>user</th>
             <th>result</th>
         </tr>
-        </thead>
-    </table>
-    {% for submission in submissions %}
+        {% for submission in submissions %}
     {% include "_status_row.html" %}
     {% endfor %}
+        </thead>
+    </table>
+
 {% endblock %}
