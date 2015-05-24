@@ -1,6 +1,7 @@
+ {% for submission in submissions %}
 <tr>
     <td>
-        {{ submission.id }}
+        {{ loop.index }}
     </td>
     <td>
        <a href="{{ url_for("questions.getquestion",id=submission.question_id) }}">{{ submission.question_id }}</a>
@@ -18,5 +19,6 @@
 
 
 </tr>
+{% endfor %}
 
 

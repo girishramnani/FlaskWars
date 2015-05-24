@@ -42,7 +42,7 @@ def register():
                         is_admin=False)
             db.session.add(user)
             db.session.commit()
-            login_user(user, form.remember_me.data)
+            login_user(user, True)
             flash("Registered successfully")
             return redirect(url_for("questions.index"))
     return render_template("register.html", form=form)

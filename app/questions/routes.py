@@ -119,7 +119,8 @@ def status():
 @questions.route('/submissions/')
 @login_required
 def status_individual():
-    user_submissions = Submission.query.filter(current_user.id == Submission.question_id)
+    user_submissions = current_user.submissions
+    print(user_submissions)
     return render_template("status.html", submissions=user_submissions, ofuser=True)
 
 
