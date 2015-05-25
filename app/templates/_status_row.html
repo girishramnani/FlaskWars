@@ -1,27 +1,27 @@
- {% for submission in submissions %}
-<tr>
-    <td>
-        {{ loop.index }}
-    </td>
-    <td>
-       <a href="{{ url_for("questions.getquestion",id=submission.question_id) }}">{{ submission.question_id }}</a>
-    </td>
-    <td>
-        {% if allusers %}
-            {{ allusers[submission.user_id] }}
+{% for submission in submissions %}
+    <tr>
+        <td>
+            {{ loop.index }}
+        </td>
+        <td>
+            <a href="{{ url_for("questions.getquestion",id=submission.question_id) }}">{{ submission.question_id }}</a>
+        </td>
+        <td>
+            {% if allusers %}
+                {{ allusers[submission.user_id] }}
             {% else %}
-            {{ current_user.username }}
-        {% endif %}
-    </td>
-    <td>
-    {{ submission.result_score}}
-    </td>
-    <td>
-        {{ submission.submited_on }}
-    </td>
+                {{ current_user.username }}
+            {% endif %}
+        </td>
+        <td>
+            {{ submission.result_score }}
+        </td>
+        <td>
+            {{ submission.submited_on }}
+        </td>
 
 
-</tr>
+    </tr>
 {% endfor %}
 
 

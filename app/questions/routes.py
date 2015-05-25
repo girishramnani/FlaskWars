@@ -1,17 +1,19 @@
 import os
 import time
 from multiprocessing import Process, Queue
+
 from sqlalchemy import desc
 from flask.ext.login import current_user, login_required
 from flask.globals import request
 from flask.helpers import flash, url_for
 from flask import redirect
 from sqlalchemy.sql import functions
+
 from app.auth.model import User
-
 from app.questions.forms import SubmitForm, TestForm
-
 from app import db
+
+
 __author__ = 'Girish'
 from flask import render_template
 from app.questions import questions
@@ -45,7 +47,7 @@ def getquestion(id):
     return render_template("question.html", question=selected_question, form=submitform, test_form=testform)
 
 
-def find_score(filename,id,userid):
+def find_score(filename, id, userid):
     """
     the import here is done inside because else a cyclic import situation arrises but as this
     method runs inside another process so the time consumed doesnt matter
@@ -54,33 +56,28 @@ def find_score(filename,id,userid):
     :return:
     """
     from manage import app
+
     with app.app_context():
         with open(filename) as file:
-            length =len(file.read())
+            length = len(file.read())
         question = Question.query.filter(Question.id == id).first()
         maxS = question.max_score
-        print(length,maxS)
-        score = ((maxS-length)/maxS)*100
-        if score <1:
-            score =1
-        submission = Submission(user_id =userid ,question_id=id,\
-                                result=True,result_score=score,result_message="Solved")
+        print(length, maxS)
+        score = ((maxS - length) / maxS) * 100
+        if score < 1:
+            score = 1
+        submission = Submission(user_id=userid, question_id=id, \
+                                result=True, result_score=score, result_message="Solved")
 
         db.session.add(submission)
         db.session.commit()
         db.create_all()
-        all_submissions = db.session.query(functions.max(Submission.result_score)).group_by(Submission.question_id).all()
-        user = User.query.filter(User.id ==userid).first()
-        user.total_score=sum((x[0] for x in all_submissions))
+        all_submissions = db.session.query(functions.max(Submission.result_score)).group_by(
+            Submission.question_id).all()
+        user = User.query.filter(User.id == userid).first()
+        user.total_score = sum((x[0] for x in all_submissions))
         db.session.commit()
         print("done")
-
-
-
-
-
-
-
 
 
 @questions.route('/questions/<int:id>/submit', methods=('GET', 'POST'))
@@ -102,7 +99,7 @@ def submit(id):
             location = os.path.join(UPLOAD_LOCATION, filename)
             file.save(location)
             userid = int(current_user.id)
-            code_process= Process(target=find_score,args=(location,id,userid))
+            code_process = Process(target=find_score, args=(location, id, userid))
             code_process.start()
 
             flash("your code has been uploaded")
@@ -116,10 +113,10 @@ def submit(id):
 def status():
     all_submissions = Submission.query.order_by(desc(Submission.submited_on)).all()
     all_users = User.query.all()
-    all_users_username =[" "]+[user.username for user in all_users ]
+    all_users_username = [" "] + [user.username for user in all_users]
     print(all_users_username)
 
-    return render_template("status.html", submissions=all_submissions,allusers = all_users_username)
+    return render_template("status.html", submissions=all_submissions, allusers=all_users_username)
 
 
 @questions.route('/submissions/')
@@ -140,7 +137,6 @@ def check_similarity(queue, filename1, filename2):
                 queue.put("True")
             else:
                 queue.put("False")
-
 
 
 @questions.route('/tests/<int:id>', methods=['POST'])

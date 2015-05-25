@@ -14,7 +14,7 @@
                     {{ wtf.quick_form(test_form,action =url_for("questions.test_check",id=question.id),method="post",enctype="multipart/form-data",extra_classes="test-form") }}
                     <br>
                     <fieldset class="solution" disabled>
-                    {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post",enctype="multipart/form-data") }}
+                        {{ wtf.quick_form(form,action=url_for("questions.submit",id = question.id),method="post",enctype="multipart/form-data") }}
                     </fieldset>
                 </div>
             </div>
@@ -55,12 +55,12 @@
                 },
                 //Ajax events
                 success: function (data, a) {
-                    if (data =="True"){
+                    if (data == "True") {
                         solution.removeAttr("disabled");
                         first_input.removeClass("has-error");
                         first_input.addClass("has-success");
                     }
-                    else{
+                    else {
                         first_input.removeClass("has-success");
                         first_input.addClass("has-error");
                     }

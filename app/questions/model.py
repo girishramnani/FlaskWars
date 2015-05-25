@@ -42,7 +42,8 @@ class Submission(db.Model):
     submited_on = db.Column(db.DateTime(), default=datetime.utcnow())
 
     def __str__(self):
-        return "_".join(["user ",str(self.id)," question_id ",str(self.question_id)," result_score ",str(self.result_score)])
+        return "_".join(
+            ["user ", str(self.id), " question_id ", str(self.question_id), " result_score ", str(self.result_score)])
 
 
 
