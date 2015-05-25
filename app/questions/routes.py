@@ -71,6 +71,10 @@ def find_score(filename,id,userid):
         db.create_all()
         all_submissions = db.session.query(functions.max(Submission.result_score)).group_by(Submission.question_id).all()
         print(sum((x[0] for x in all_submissions)))
+        user = User.query.filter(User.id ==userid)
+        user.total_score = 50.0
+        db.session.commit()
+
 
 
         print("done")
