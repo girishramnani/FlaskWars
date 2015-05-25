@@ -6,6 +6,7 @@ from flask.ext.login import current_user, login_required
 from flask.globals import request
 from flask.helpers import flash, url_for
 from flask import redirect
+from sqlalchemy.sql import functions
 from app.auth.model import User
 
 from app.questions.forms import SubmitForm, TestForm
@@ -64,9 +65,13 @@ def find_score(filename,id,userid):
             score =1
         submission = Submission(user_id =userid ,question_id=id,\
                                 result=True,result_score=score,result_message="Solved")
+
         db.session.add(submission)
         db.session.commit()
         db.create_all()
+        all_submissions = db.session.query(functions.max(Submission.result_score)).group_by(Submission.question_id)
+        print(sum(all_submissions.all()))
+
         print("done")
 
 
