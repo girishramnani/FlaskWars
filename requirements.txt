@@ -1,0 +1,7 @@
+Flask
+Flask-WTF
+Flask-Login
+Flask-Admin
+Flask-sqlalchemy
+sqlalchemy
+Flask-Script
