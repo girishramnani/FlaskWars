@@ -1,7 +1,7 @@
 import os
 import time
 from multiprocessing import Process, Queue
-
+from sqlalchemy import desc
 from flask.ext.login import current_user, login_required
 from flask.globals import request
 from flask.helpers import flash, url_for
@@ -114,7 +114,7 @@ def submit(id):
 
 @questions.route('/status/')
 def status():
-    all_submissions = Submission.query.all()
+    all_submissions = Submission.query.order_by(desc(Submission.submited_on)).all()
     all_users = User.query.all()
     all_users_username =[" "]+[user.username for user in all_users ]
     print(all_users_username)
