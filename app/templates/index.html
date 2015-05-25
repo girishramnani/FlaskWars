@@ -9,13 +9,12 @@
         <tr>
             <th>#</th>
             <th>Question name</th>
+            <th>score</th>
             <th>result</th>
         </tr>
         </thead>
         <tbody>
-        {% for question in all_quest %}
-            {% include "_question_helper.html" %}
-        {% endfor %}
+           {% include "_question_helper.html" %}
 
         </tbody>
     </table>

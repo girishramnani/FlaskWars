@@ -28,8 +28,9 @@ TEST_LOCATION = os.path.abspath("app\\static\\tests")
 def index():
     if current_user.is_authenticated():
         all_questions = Question.query.all()
-        print(all_questions)
-        return render_template("index.html", all_quest=all_questions)
+        all_submissions = db.session.query(Submission.question_id,functions.max(Submission.result_score),Submission.result_message,Submission.result).filter(Submission.user_id==current_user.id).group_by(
+            Submission.question_id).all()
+        return render_template("index.html", all_quest=all_questions,allsubmission =all_submissions)
     flash("you need to login to see the questions", category="warning")
     return redirect(url_for("auth.login"))
 
@@ -72,7 +73,7 @@ def find_score(filename, id, userid):
         db.session.add(submission)
         db.session.commit()
         db.create_all()
-        all_submissions = db.session.query(functions.max(Submission.result_score)).group_by(
+        all_submissions = db.session.query(functions.max(Submission.result_score)).filter(Submission.user_id==userid).group_by(
             Submission.question_id).all()
         user = User.query.filter(User.id == userid).first()
         user.total_score = sum((x[0] for x in all_submissions))

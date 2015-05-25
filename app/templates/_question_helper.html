@@ -1,11 +1,34 @@
-<tr>
+{% set counter = 0 %}
+
+{% for question in all_quest %}
+
+
     <td>
         {{ question.id }}
     </td>
     <td>
         <a href="{{ url_for("questions.getquestion",id=question.id) }}">{{ question.title }}</a>
     </td>
-    <td>
-        -
-    </td>
+
+        {% if allsubmission[counter] and allsubmission[counter][0] == question.id   %}
+            <td>
+      {{ allsubmission[counter][1] }}
+             </td>
+
+            <td>
+
+                {{ allsubmission[counter][2] }}
+
+            </td>
+        {% set counter = counter + 1  %}
+
+
+
+        {% else %}
+            <td>-</td>
+            <td>-</td>
+    {% endif %}
+
 </tr>
+  {% endfor %}
+<tr>
