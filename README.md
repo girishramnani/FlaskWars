@@ -1,4 +1,4 @@
-# flaskCompiler
+# FlaskWars
 a platform for coding compititions made for local usage based on flask
 <br>
 <hr>
