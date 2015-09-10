@@ -1,7 +1,5 @@
 __author__ = 'Girish'
 
-__author__ = 'Girish'
-
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -20,7 +18,9 @@ class DevelopmentConfig(Config):
     UPLOAD_FOLDER = os.path.join(basedir, 'app/static/upload')
 
 
+class ProductionConfig(Config):
+
+
 config = {
     'development': DevelopmentConfig
 }
-

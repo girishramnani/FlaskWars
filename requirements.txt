@@ -3,5 +3,6 @@ Flask-WTF
 Flask-Login
 Flask-Admin
 Flask-sqlalchemy
+Flask-bootstrap
 sqlalchemy
 Flask-Script
