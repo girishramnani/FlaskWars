@@ -11,7 +11,7 @@ from app.auth.model import User
 
 
 @manager.command
-def adduser(email, username, admin=False):
+def adduser(email, username, admin=True):
     from getpass import getpass
 
     password = getpass()

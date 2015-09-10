@@ -19,6 +19,7 @@ class DevelopmentConfig(Config):
 
 
 class ProductionConfig(Config):
+    pass
 
 
 config = {

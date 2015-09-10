@@ -18,6 +18,10 @@ class User(UserMixin, db.Model):
     total_score = db.Column(db.DECIMAL, default=0.0)
     submissions = db.relationship("Submission")
 
+
+    def if_admin(self):
+        return self.is_admin
+        
     @property
     def password(self):
         raise ArithmeticError("not a readable attribute")
