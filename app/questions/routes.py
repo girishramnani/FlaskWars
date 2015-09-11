@@ -20,8 +20,8 @@ from app.questions import questions
 from app.questions.model import Question, Submission
 
 ALLOWED_EXTENSIONS = {'c', 'cpp', 'py', 'rb', 'java', 'txt'}
-UPLOAD_LOCATION = os.path.abspath("app\\static\\upload")
-TEST_LOCATION = os.path.abspath("app\\static\\tests")
+UPLOAD_LOCATION = os.path.abspath("app/static/upload")
+TEST_LOCATION = os.path.abspath("app/static/tests")
 
 
 @questions.route("/")
@@ -29,7 +29,7 @@ def index():
     if current_user.is_authenticated():
         all_questions = Question.query.all()
         all_submissions = db.session.query(Submission.question_id,functions.max(Submission.result_score),Submission.result_message,Submission.result).filter(Submission.user_id==current_user.id).group_by(
-            Submission.question_id).all()
+            Submission.question_id,Submission.result_message,Submission.result).all()
         return render_template("index.html", all_quest=all_questions,allsubmission =all_submissions)
     flash("you need to login to see the questions", category="warning")
     return redirect(url_for("auth.login"))
@@ -82,7 +82,6 @@ def find_score(filename, id, userid):
 
 
 @questions.route('/questions/<int:id>/submit', methods=('GET', 'POST'))
-@login_required
 def submit(id):
     """
     similar to the test submission.
@@ -100,9 +99,9 @@ def submit(id):
             location = os.path.join(UPLOAD_LOCATION, filename)
             file.save(location)
             userid = int(current_user.id)
-            code_process = Process(target=find_score, args=(location, id, userid))
-            code_process.start()
-
+            # code_process = Process(target=find_score, args=(location, id, userid))
+            # code_process.start()
+            find_score(location,id,userid)
             flash("your code has been uploaded")
             return redirect(url_for("questions.getquestion", id=id))
         else:
@@ -154,12 +153,12 @@ def test_check(id):
     if request.method == "POST":
         selected_question = Question.query.filter(Question.id == id).first()
         filename = selected_question.testcases[0].output_tests
-        file_location = os.path.join("app\\static\\tests", filename)
+        file_location = os.path.join("app/static/tests", filename)
 
         test_file_name = "_".join([current_user.username, str(selected_question.id), str(int(time.time()))])
         test_file_name += ".txt"
         test_file = request.files['test']
-        location = os.path.join("app\\static\\tests\\user_tests", test_file_name)
+        location = os.path.join("app/static/tests/user_tests", test_file_name)
         test_file.save(location)
 
         process = Process(target=check_similarity, args=(global_queue, file_location, location))
@@ -167,8 +166,3 @@ def test_check(id):
         data = global_queue.get()
         process.join()
         return data
-
-
-
-
-
