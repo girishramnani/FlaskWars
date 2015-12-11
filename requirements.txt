@@ -6,3 +6,4 @@ Flask-sqlalchemy
 Flask-bootstrap
 sqlalchemy
 Flask-Script
+psycopg2
