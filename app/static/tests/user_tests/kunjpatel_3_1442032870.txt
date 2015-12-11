@@ -1,0 +1,28 @@
+
+
+using namespace isotream
+int prime(int n)
+{
+int a;
+for(int i=2;i<=n/2;i++)
+{
+if(n%i==0)
+a++;
+break;
+}
+return n;
+}
+int main()
+{
+int n,k,a=0;
+cout<"enter the number:";
+cin>>n;
+k=prime(n);
+if(k==1)
+{
+cout<<"its a prime number";
+}
+else
+cout<<"it is not a prime number";
+return 0;
+}

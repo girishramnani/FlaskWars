@@ -1,0 +1,2 @@
+#include<stdio.h>
+int main(){int t,n,j;scanf("%d",&t);h:while(t--){j=1;scanf("%d",&n);if(n==1)printf("NO\n");else{while(++j<n){if(n%j==0){printf("NO\n");goto h;}}printf("YES\n");}}return 0;}

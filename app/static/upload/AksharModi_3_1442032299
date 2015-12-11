@@ -1,0 +1,2 @@
+#include<iostream>
+using namespace std;int main(){int t,x,i,c,n;cin>>t;for(i=1;i<=t;i++){cin>>n;if(n==1){cout<<"NO\n";continue;}c=0;for(x=2;x<=n/2;x++)if(n%x==0){cout<<"NO\n";c=1;break;}if(c==0)cout<<"YES\n";}}

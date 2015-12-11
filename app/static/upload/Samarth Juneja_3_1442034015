@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	int t,n,flag,i=0,a[10],j;
+	cin>>t;
+	while(i<t)
+		cin>>a[i++];
+	i=0;	
+	while(t>0)
+	{
+		t--;
+		flag=0;
+		if(a[i]==1)
+			cout<<"NO"<<endl;
+		else
+		{
+			for(j=2;j<=a[i]/2;j++)
+				if(a[i]%j==0)
+				{
+					cout<<"NO"<<endl;
+					flag=1;
+					break;
+				}
+			if(flag==0)
+			{
+				cout<<"YES"<<endl;
+			}
+		}
+		i++;
+	}
+}

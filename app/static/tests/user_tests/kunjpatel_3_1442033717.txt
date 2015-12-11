@@ -1,0 +1,1 @@
+enter the number:it is not a prime number

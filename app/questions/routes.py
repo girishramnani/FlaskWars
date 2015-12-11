@@ -26,7 +26,7 @@ TEST_LOCATION = os.path.abspath("app/static/tests")
 
 @questions.route("/")
 def index():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         all_questions = Question.query.all()
         all_submissions = db.session.query(Submission.question_id,functions.max(Submission.result_score),Submission.result_message,Submission.result).filter(Submission.user_id==current_user.id).group_by(
             Submission.question_id,Submission.result_message,Submission.result).all()
@@ -42,10 +42,12 @@ def allowed_file(filename):
 @questions.route("/questions/<int:id>")
 @login_required
 def getquestion(id):
+    selected_question = Question.query.filter(Question.id == id).first()
+    filename = selected_question.testcases[0].input_test
     submitform = SubmitForm()
     testform = TestForm()
     selected_question = Question.query.filter(Question.id == id).first()
-    return render_template("question.html", question=selected_question, form=submitform, test_form=testform)
+    return render_template("question.html", question=selected_question, form=submitform, test_form=testform,file_name=filename)
 
 
 def find_score(filename, id, userid):

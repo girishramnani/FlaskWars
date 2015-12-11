@@ -1,0 +1,12 @@
+#include<iostream>
+using namespace std;
+int p(int y){int j,f=0;
+for(j=2;j<=(y/2);j++)
+{if(y%j==0){f=1;}}return f;}
+int main(){int t,x,i,z;
+cin>>t;
+for(i=0;i<t;i++)
+{cin>>x;z=p(x);
+if(x==1){cout<<"NO\n";}
+else if(z==0){cout<<"YES\n";}
+else{cout<<"NO\n";}}}		

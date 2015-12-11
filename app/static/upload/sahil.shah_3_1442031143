@@ -1,0 +1,22 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	int t,n,i,flag;
+	cin>>t;
+	while(t--)
+	{
+		flag=0;
+		cin>>n;
+		if(n==1)
+			flag=1;
+		else
+			for(i=2;i<=sqrt(n);i++)
+				if(n%i==0)
+					flag=1;
+		if(flag==0)
+			cout<<"YES\n";
+		else
+			cout<<"NO\n";
+	}
+}

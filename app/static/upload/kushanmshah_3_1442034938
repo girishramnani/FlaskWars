@@ -1,0 +1,1 @@
+#include<stdio.h>void main(){int i=0,n,t,f,j;scanf("%d",&t);while(i<t){if(isprime(n))f=0;if(f==0)printf("YES\n");elseprintf("NO\n");i++;}}
