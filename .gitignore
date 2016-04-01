@@ -58,3 +58,6 @@ target/
 
 #pycharm files
 .idea/*
+
+app/static/upload
+app/static/tests
